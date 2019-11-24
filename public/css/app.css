@@ -11100,3 +11100,7 @@ a.text-dark:focus {
   }
 }
 
+.list-group-item h3 {
+  text-transform: capitalize !important;
+}
+
