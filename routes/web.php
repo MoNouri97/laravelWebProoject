@@ -13,7 +13,10 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
+Route::get('/post',function ()
+{
+	return 'hello';
+});
 Route::get('/','PagesController@Index');
 Route::resource('posts', 'PostsController');
 

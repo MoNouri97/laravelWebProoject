@@ -1,6 +1,9 @@
 @extends('layouts.app') @section('content')
     <a href="/posts" class="mt-3 mb-3 btn btn-outline-primary">Back</a>
     <h1 class="display-1">{{$post->title}}</h1>
+    <div class="row">
+        <img src="/storage/cover_images/{{$post->cover_image}}" style="width: 100%">
+    </div>
     <p>{{$post->body}}</p>
     <hr/>
     <small>Written on {{$post->created_at}} by {{$post->user->name}} </small>
