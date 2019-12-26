@@ -13,9 +13,15 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
-Route::get('/','PagesController@Index');
+Route::get('/hello', function () {
+	return 'hello';
+});
+Route::get('/', 'PagesController@Index');
 Route::resource('posts', 'PostsController');
+Route::post('posts/tags', 'PostsController@indexTag');
+Route::post('/users/follow', 'UsersController@follow');
+Route::resource('users', 'UsersController');
+Route::get('/users/{user}/admin', 'UsersController@toggleAdmin');
 
 Auth::routes();
 

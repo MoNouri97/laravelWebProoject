@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Post;
+use App\User;
+use App\Mail\newPost;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class PostsController extends Controller
 {
@@ -13,9 +17,9 @@ class PostsController extends Controller
 	 *
 	 * @return void
 	 */
-	public function __construct()
-	{
-		$this->middleware('auth',['except'=>['index','show']]);
+	public function __construct() {
+		$this->middleware('auth', ['except' => ['index', 'show']]);
+		$this->middleware('writer',['only' => ['create','store']]);
 	}
 
 
@@ -47,16 +51,50 @@ class PostsController extends Controller
 	 * @throws \Illuminate\Validation\ValidationException
 	 */
 	public function store(Request $request) {
+		// validate request
 		$this->validate($request, [
 			'title' => 'required',
-			'body' => 'required'
+			'body' => 'required',
+			'coverImage' => 'mimes:jpeg,bmp,png|nullable|max:2000'
 		]);
+
+		// handle file
+		if ($request->hasFile('coverImage')) {
+			// get file name
+			$fileNameWithExt = $request->file('coverImage')->getClientOriginalName();
+			$fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+			//get ext
+			$extension = $request->file('coverImage')->getClientOriginalExtension();
+			// name to store
+			$nameToStore = $fileName . '_' . time() . '.' . $extension;
+			// upload image
+			$path = $request->file('coverImage')->storeAs('public/cover_images', $nameToStore);
+		} else {
+			$nameToStore = 'noImage';
+		}
+
 		// create a post
 		$post = new Post;
 		$post->title = $request->input('title');
 		$post->body = $request->input('body');
 		$post->user_id = auth()->user()->id;
+		$writerName = auth()->user()->name;
+		$post->cover_image = $nameToStore;
+		if ($request->input('tags'))
+			$post->tags = explode(";", $request->input('tags'));
 		$post->save();
+
+		//send mail to followers
+		$queryResults = User::where('following','like','%'.$post->user_id.'%')->get();
+		if (count($queryResults)>0) {
+			Mail::to($queryResults)
+			->send(new newPost(
+				$post->id,
+				$post->title,
+				$writerName
+			));
+		}
+			
 		return redirect('/posts')->with('success', 'Post Created');
 	}
 
@@ -68,7 +106,27 @@ class PostsController extends Controller
 	 */
 	public function show($id) {
 		$post = Post::find($id);
-		return view('posts.show')->with('post', $post);
+		if ($post == NULL) {
+			return \abort(404);
+		}
+		$ret = view('posts.show')->with('post', $post);
+		
+		if (auth()->check()) {	
+			// check if the user is following the writer
+			$following = auth()->user()->following;
+			if ($following != NULL) {
+				$found = array_search($post->user_id,$following);
+				if ($found || $found===0) {
+					$ret->with('followed',TRUE);
+				}	else{
+					$ret->with('followed',FALSE);
+				}
+			}else{
+				$ret->with('followed',FALSE);
+			}
+		}
+
+		return $ret;
 	}
 
 	/**
@@ -79,13 +137,23 @@ class PostsController extends Controller
 	 */
 	public function edit($id) {
 		$post = Post::find($id);
-
+		if ($post == NULL) {
+			return \abort(404);
+		}
 		//authentication
-		if (auth()->user()->id != $post->user_id){
+		if (auth()->user()->id != $post->user_id) {
 			return redirect('/posts')->with('error', 'Unauthorized Page');
 		}
+		//making tags into a string
+		$tags = $post->tags;
+		$st = "";
+		foreach ($tags as $key => $val) {
+			if ($key != 0)
+				$st .= ";";
+			$st .= $val;
+		}
 
-		return \view('posts.edit')->with('post', $post);
+		return \view('posts.edit')->with('post', $post,)->with('tags', $st);
 	}
 
 	/**
@@ -99,18 +167,39 @@ class PostsController extends Controller
 	public function update(Request $request, $id) {
 		$this->validate($request, [
 			'title' => 'required',
-			'body' => 'required'
+			'body' => 'required',
+			'coverImage' => 'mimes:jpeg,bmp,png|nullable|max:2000'
 		]);
 		// create a post
 		$post = Post::find($id);
 
 		//authentication
-		if (auth()->user()->id != $post->user_id){
+		if (auth()->user()->id != $post->user_id) {
 			return redirect('/posts')->with('error', 'Unauthorized Page');
+		}
+
+		// handle file
+		if ($request->hasFile('coverImage')) {
+			// get file name
+			$fileNameWithExt = $request->file('coverImage')->getClientOriginalName();
+			$fileName = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+			//get ext
+			$extension = $request->file('coverImage')->getClientOriginalExtension();
+			// name to store
+			$nameToStore = $fileName . '_' . time() . '.' . $extension;
+			// upload image
+			$path = $request->file('coverImage')->storeAs('public/cover_images', $nameToStore);
+		} else {
+			$nameToStore = 'noImage';
 		}
 
 		$post->title = $request->input('title');
 		$post->body = $request->input('body');
+		if ($nameToStore != 'noImage') {
+			$post->cover_image = $nameToStore;
+		}
+		if ($request->input('tags'))
+			$post->tags = explode(";", $request->input('tags'));
 		$post->save();
 		return redirect('/posts')->with('success', 'Post Updated');
 	}
@@ -125,12 +214,33 @@ class PostsController extends Controller
 		$post = Post::find($id);
 
 		//authentication
-		if (auth()->user()->id != $post->user_id){
+		if (auth()->user()->id != $post->user_id) {
 			return redirect('/posts')->with('error', 'Unauthorized Page');
 		}
 
+		if ($post->cover_image) {
+			Storage::delete('/public/cover_images/' . $post->cover_image);
+		}
+
 		$post->delete();
-		return redirect('/posts')->with('success', 'Post Removed');
+		return redirect()->back()->with('success', 'Post Removed');
+	}
+
+	/**
+	 * Return the posts in a specific tag
+	 * @param string tag
+	 */
+	public function indexTag(Request $request){
+		$tag = $request->input('tags');
+		$tagsArray = explode(';',$tag);
+		$query = Post::orderBy('created_at', 'desc');
+		for ($i=0; $i < count($tagsArray) ;$i++) {
+			$query = $query->orWhere('tags', 'like', '%'.$tagsArray[$i].'%');
+		}
+		$posts = $query->get();
+		// \dd($posts);
+		return view('posts.index')->with('posts', $posts);
+		
 
 	}
 }
