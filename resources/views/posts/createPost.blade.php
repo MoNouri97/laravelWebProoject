@@ -17,6 +17,11 @@
                 <label class="custom-file-label" for="coverImage">Ajouter Une Image de Couverture</label>
             </div>
         </div>
+        <div class="form-group">
+            <label for="tags">tags <small>separate them with ";"</small></label>
+            <input type="text" name="tags" class="form-control">
+        </div>
         <button type="submit" class="btn btn-danger">Submit</button>
+
     </form>
 @endsection

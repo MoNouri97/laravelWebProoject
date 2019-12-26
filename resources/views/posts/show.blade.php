@@ -1,11 +1,35 @@
-@extends('layouts.app') @section('content')
-    <a href="/posts" class="mt-3 mb-3 btn btn-outline-primary">Back</a>
-    <h1 class="display-1">{{$post->title}}</h1>
-    <div class="row">
-        <img src="/storage/cover_images/{{$post->cover_image}}" style="width: 100%">
+@extends('layouts.app')
+@section('content-f')
+    <div class="text-center">
+        <h1 class="display-1 ">{{$post->title}}</h1>
+        <small>Written on {{$post->created_at}}<br>
+            by {{$post->user->name}} 
+        </small>
+        @auth
+        <a href='#' onclick="followWriter(event,{{$post->user->id}})" id="follow" class="badge badge-success">
+            @if ($followed)
+            unFollow
+            @else
+            Follow
+            @endif
+        </a>
+        @endauth
     </div>
+    <hr>
+    <div class="row">
+        @if ($post->cover_image != 'noImage')
+            <img style="background-image: url('/storage/cover_images/{{$post->cover_image}}');
+                    background-size: cover;
+                    background-position:center;
+                    width: 100%;
+                    height:300px">
+        @else
+            <div class="noImage" style="width: 100% ; height:300px"></div>
+        @endif
+    </div>
+@endsection
+@section('content')
     <p>{{$post->body}}</p>
-    <hr/>
     <small>Written on {{$post->created_at}} by {{$post->user->name}} </small>
     <hr>
     @if(!Auth::guest())
