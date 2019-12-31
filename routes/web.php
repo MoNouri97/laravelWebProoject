@@ -14,7 +14,7 @@
 //     return view('welcome');
 // });
 Route::get('/hello', function () {
-	return 'hello';
+	return '<h1>hello';
 });
 Route::get('/', 'PagesController@Index');
 Route::resource('posts', 'PostsController');
@@ -25,4 +25,4 @@ Route::get('/users/{user}/admin', 'UsersController@toggleAdmin');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('Dashboard');

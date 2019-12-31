@@ -18,7 +18,7 @@ class PostsController extends Controller
 	 * @return void
 	 */
 	public function __construct() {
-		$this->middleware('auth', ['except' => ['index', 'show']]);
+		$this->middleware('auth', ['except' => ['index', 'show','indexTag']]);
 		$this->middleware('writer',['only' => ['create','store']]);
 	}
 

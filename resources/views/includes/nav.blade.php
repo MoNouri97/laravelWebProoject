@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light nav-light" id="nav">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}
@@ -35,7 +35,7 @@
                         name="tags"
                         placeholder="Search for tags" 
                         aria-label="Search">
-                        <button class="btn btn-outline-default" type="submit">
+                        <button class="btn btn-outline-default" type="submit" >
                             <span class="fas fa-search"></span>
                         </button>
                       </form>
@@ -67,7 +67,7 @@
                                 @csrf
                             </form>
                             @if (Auth::user()->type === 'admin'||Auth::user()->type === 'writer')
-                                <a class="dropdown-item" href="/home">Dashboard</a>
+                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
                                 <a class="dropdown-item" href="/posts/create">Create Post</a>
                             @endif
                         </div>

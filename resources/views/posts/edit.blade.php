@@ -1,8 +1,19 @@
 @extends('layouts.app')
+@section('hero')
+    
+@component('includes.hero')
+    @slot('title')
+        Edit Post
+    @endslot
+    @slot('subTitle')
+    a person who never made a mistake never tried anything new </br> <small >Albert Einstein</small>
+    @endslot
+@endcomponent  
+@endsection
 @section('content')
-    <h1>Edit Post</h1>
+    <h1></h1>
     <form action="/posts/{{$post->id}}" method="post" enctype="multipart/form-data">
-        @method('PUT')
+        @method('PUT') 
         {{ csrf_field() }}
         <div class="form-group">
             <label for="title">Title</label>

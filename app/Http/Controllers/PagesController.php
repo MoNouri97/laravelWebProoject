@@ -8,6 +8,7 @@ class PagesController extends Controller
 {
     public function Index()
     {
-        return view('pages.index');
+        return redirect('/posts');
+        // return view('pages.index');
     }
 }

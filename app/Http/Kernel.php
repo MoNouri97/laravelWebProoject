@@ -51,6 +51,7 @@ class Kernel extends HttpKernel
 	 * @var array
 	 */
 	protected $routeMiddleware = [
+		'user.verify' =>\App\Http\Middleware\UserVerification::class,
 		'writer' =>  \App\Http\Middleware\WriterOrNot::class,
 		'auth' => \App\Http\Middleware\Authenticate::class,
 		'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
