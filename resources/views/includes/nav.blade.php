@@ -1,4 +1,9 @@
-<nav class="navbar navbar-expand-md navbar-light nav-light" id="nav">
+<nav class="navbar navbar-expand-md   
+@hasSection ('hero')
+navbar-dark  
+@else
+navbar-light
+@endif" id="nav">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}

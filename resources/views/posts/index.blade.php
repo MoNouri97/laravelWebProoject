@@ -1,15 +1,14 @@
 
 @extends('layouts.app')
 @section('hero')
-    
-@component('includes.hero')
-@slot('title')
-Blog Posts 
-@endslot
-@slot('subTitle')
-It is my business to know what other people don’t know </br> <small >Sherlock Holmes</small>
-@endslot
-@endcomponent  
+    @component('includes.hero')
+        @slot('title')
+            Blog Posts 
+        @endslot
+        @slot('subTitle')
+            It is my business to know what other people don’t know </br> <small >Sherlock Holmes</small>
+        @endslot
+    @endcomponent  
 @endsection
 
 @section('content')
