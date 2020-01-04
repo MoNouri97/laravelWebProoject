@@ -7,21 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class newPost extends Mailable
+class feedbackMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $title,$writer,$id;
+    public $title,$body,$email;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($id,$title,$writer)
+    public function __construct($title,$body,$email)
     {
         $this->title = $title;
-        $this->writer = $writer;
-        $this->id = $id;
+        $this->body = $body;
+        $this->email = $email;
         
     }
 
@@ -32,7 +32,7 @@ class newPost extends Mailable
      */
     public function build()
     {
-        return $this->from('email@SharedInfo.test')
-                    ->view('mail.newPost');
+        return $this->from($this->email)
+                    ->view('mail.feedbackMail');
     }
 }

@@ -20,8 +20,8 @@
     @foreach ($posts as $post)
     <div class="d-flex flex-column  mb-0 bd-highlight col-md-4">
         <div class="">
-            <div class="post-entry" style="background: #fff;box-shadow: 0px 0px 25px -19px black;" >
-                <a href="posts/{{$post->id}}" class="d-block " style="height: 250px;overflow: hidden">
+            <div class="post-entry" >
+                <a href="/posts/{{$post->id}}" class="d-block " style="height: 250px;overflow: hidden">
                     @if ($post->cover_image != 'noImage')
                     <img class="img-fluid" src="/storage/cover_images/{{$post->cover_image}}">
                     @else
@@ -36,9 +36,9 @@
                         <p class="badge badge-warning ">{{$item.' '}} </p>
                     @endforeach
                     <span class="post-meta">{{$post->created_at}} &bullet; By <a href="/users/{{$post->user_id}}">{{$post->user->name}}</a></span>
-                    <h3><a href="posts/{{$post->id}}">{{$post->title}} </a></h3>
+                    <h3><a href="/posts/{{$post->id}}">{{$post->title}} </a></h3>
                     <p>{{ substr($post->body ,0, 100) }}... </p>
-                    <p><a href="posts/{{$post->id}} " class="readmore">Read more</a></p>
+                    <p><a href="/posts/{{$post->id}} " class="readmore">Read more</a></p>
                 </div>
             </div>
         </div>

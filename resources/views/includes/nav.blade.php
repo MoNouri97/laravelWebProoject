@@ -18,15 +18,16 @@ navbar-light
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a href="/posts" class="nav-link">All Posts</a></li>
                 @auth
-                    @if (Auth::user()->type == "admin")
-                        <li class="nav-item">
-                            <a class="nav-link" href="/users">
-                                All Users
-                                <span class="badge badge-danger">admin</span>
-                            </a>
-                        </li>
-                    @endif
+                @if (Auth::user()->type == "admin")
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">
+                        All Users
+                        <span class="badge badge-danger">admin</span>
+                    </a>
+                </li>
+                @endif
                 @endauth
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
