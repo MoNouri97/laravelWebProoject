@@ -34,7 +34,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", sans-serif;
+  --font-family-sans-serif: "Roboto", "Nunito", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -66,7 +66,7 @@ section {
 
 body {
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", "Nunito", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
@@ -6459,7 +6459,7 @@ a.close.disabled {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", "Nunito", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6584,7 +6584,7 @@ a.close.disabled {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", "Nunito", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -11102,5 +11102,39 @@ a.text-dark:focus {
 
 .list-group-item h3 {
   text-transform: capitalize !important;
+}
+
+.noImage {
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.img-fluid {
+  max-width: 120%;
+}
+
+#nav {
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  color: #fff;
+}
+
+.post-entry {
+  background: #fff;
+  box-shadow: 0px 0px 25px -19px black;
+  position: relative;
+  top: 0px;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.post-entry:hover {
+  box-shadow: 0px 0px 25px -13px black;
+  position: relative;
+  top: -3px;
+}
+
+.post-body {
+  white-space: pre-wrap;
 }
 
