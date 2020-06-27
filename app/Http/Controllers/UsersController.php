@@ -182,7 +182,7 @@ class UsersController extends Controller
 		}
 		auth()->user()->following = $following;
 		auth()->user()->save();
-		return response()->json([
+		return response()->status(200)->json([
 			'success'=>'Writer is successfully '.$operation.' following',
 			'operation'=> $operation
 		]);

@@ -12,11 +12,7 @@ function followWriter(e, id) {
 		method: 'post',
 		data,
 		success: function (result) {
-			// $("main").prepend(`
-			// <div class="alert alert-success">
-			// 	${result.success}
-			// </div>
-			// `);
+
 			const span = $('#follow');
 			console.log(span.text());
 
@@ -28,6 +24,8 @@ function followWriter(e, id) {
 
 
 			addNotification(result.success);
+			console.log(result.success);
+
 		}
 	});
 }

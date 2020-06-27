@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@section('hero')
+    
+@component('includes.hero')
+@slot('title')
+Register
+@endslot
+@slot('subTitle')
+Hello there :)
+@endslot
+@endcomponent  
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

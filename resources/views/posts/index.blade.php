@@ -16,6 +16,7 @@
 <hr>
     @if (count($posts)>0)
     <h1 class=" font-weight-bold">Latest</h1>
+    <hr>
 <div class="row">
     @foreach ($posts as $post)
     <div class="d-flex flex-column  mb-0 bd-highlight col-md-4">
@@ -45,6 +46,9 @@
     </div> 
   
     @endforeach
+</div>
+<div class="row center">
+    {{$posts->links()}}
 </div>
 @else
 No Posts Found !

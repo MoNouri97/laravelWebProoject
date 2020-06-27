@@ -6,5 +6,5 @@ New Article Was Posted
 	a new post from {{$writer}} whom you are following, <br>
 	the title of the post is : {{$title}}
 	<hr>
-	check it out now : <a href="http://webproject.test/posts/{{$id}}"> Click Here</a>
+	check it out now : <a href="http://sharedinfo.test/posts/{{$id}}"> Click Here</a>
 @endsection

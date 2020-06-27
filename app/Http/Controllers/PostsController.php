@@ -30,7 +30,7 @@ class PostsController extends Controller
 	 */
 	public function index() {
 		// $posts = Post::all();
-		$posts = Post::orderBy('created_at', 'desc')->get();
+		$posts = Post::orderBy('created_at', 'desc')->paginate(6);
 		return view('posts.index')->with('posts', $posts);
 	}
 
@@ -223,7 +223,7 @@ class PostsController extends Controller
 		}
 
 		$post->delete();
-		return redirect()->back()->with('success', 'Post Removed');
+		return redirect('/posts')->with('success', 'Post Removed');
 	}
 
 	/**
@@ -237,7 +237,7 @@ class PostsController extends Controller
 		for ($i=0; $i < count($tagsArray) ;$i++) {
 			$query = $query->orWhere('tags', 'like', '%'.$tagsArray[$i].'%');
 		}
-		$posts = $query->get();
+		$posts = $query->paginate(6);
 		// \dd($posts);
 		return view('posts.index')->with('posts', $posts);
 		

@@ -72,8 +72,8 @@ navbar-light
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
                             @if (Auth::user()->type === 'admin'||Auth::user()->type === 'writer')
-                                <a class="dropdown-item" href="/dashboard">Dashboard</a>
                                 <a class="dropdown-item" href="/posts/create">Create Post</a>
                             @endif
                         </div>

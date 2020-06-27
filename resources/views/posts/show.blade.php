@@ -55,8 +55,14 @@
     @endif
 </div>
 <hr>
-    <p>{{$post->body}}</p>
-    <small>Written on {{$post->created_at}} by {{$post->user->name}} </small>
+    <p class="post-body">{!!nl2br($post->body)!!}</p>
+    <hr>
+    <div class="row">
+        <small>Written on {{$post->created_at}} by {{$post->user->name}} </small>
+    </div>
+    <div class="row mb-3">
+        <a href="javascript:history.back()" class="btn btn-info"><i class="fas fa-backward"></i> Back</a>
+    </div>
     <hr>
     @if(!Auth::guest())
         @if(auth()->user()->id === $post->user_id)
