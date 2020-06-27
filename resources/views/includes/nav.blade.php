@@ -1,4 +1,9 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md   
+@hasSection ('hero')
+navbar-dark  
+@else
+navbar-light
+@endif" id="nav">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}
@@ -13,15 +18,16 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a href="/posts" class="nav-link">All Posts</a></li>
                 @auth
-                    @if (Auth::user()->type == "admin")
-                        <li class="nav-item">
-                            <a class="nav-link" href="/users">
-                                All Users
-                                <span class="badge badge-danger">admin</span>
-                            </a>
-                        </li>
-                    @endif
+                @if (Auth::user()->type == "admin")
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">
+                        All Users
+                        <span class="badge badge-danger">admin</span>
+                    </a>
+                </li>
+                @endif
                 @endauth
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -35,7 +41,7 @@
                         name="tags"
                         placeholder="Search for tags" 
                         aria-label="Search">
-                        <button class="btn btn-outline-default" type="submit">
+                        <button class="btn btn-outline-default" type="submit" >
                             <span class="fas fa-search"></span>
                         </button>
                       </form>
@@ -66,8 +72,8 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
                             @if (Auth::user()->type === 'admin'||Auth::user()->type === 'writer')
-                                <a class="dropdown-item" href="/home">Dashboard</a>
                                 <a class="dropdown-item" href="/posts/create">Create Post</a>
                             @endif
                         </div>

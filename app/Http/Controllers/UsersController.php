@@ -15,7 +15,8 @@ class UsersController extends Controller
 	 * @return void
 	 */
 	public function __construct() {
-		$this->middleware('auth');
+		$this->middleware('auth')->except(['show']);
+		$this->middleware('user.verify')->except(['show']);
 	}
 
 	/**
@@ -72,7 +73,9 @@ class UsersController extends Controller
 	 */
 	public function show($id) {
 		$user = User::find($id);
-		return view('users.show')->with('user',$user);
+		return view('users.show')
+						->with('user',$user)
+						->with('posts',$user->posts->sortByDesc('created_at'));
 	}
 
 	/**
@@ -179,7 +182,7 @@ class UsersController extends Controller
 		}
 		auth()->user()->following = $following;
 		auth()->user()->save();
-		return response()->json([
+		return response()->status(200)->json([
 			'success'=>'Writer is successfully '.$operation.' following',
 			'operation'=> $operation
 		]);

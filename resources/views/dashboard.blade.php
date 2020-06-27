@@ -34,11 +34,11 @@
                         @foreach($posts as $post)
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <h5 class="mb-1">{{$post->title}}</h5>
                                         <small>{{$post->created_at}}</small>
                                     </div>
-                                    <div class="col-md-4 row">
+                                    <div class="col-md-5 row">
                                         <a href="/posts/{{$post->id}}/edit" class="btn btn-light col-md-5">Edit</a>
                                         <form action="/posts/{{$post->id}}" method="post" class="col-md-6">
                                             @method('DELETE')

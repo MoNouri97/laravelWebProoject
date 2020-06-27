@@ -19,7 +19,7 @@ class WriterOrNot
         if ($user->type == 'writer' || $user->type == 'admin') {
             return $next($request);
         }
-        return redirect('/posts')->with('error','Doesn\'t have the right to write posts');
+        return redirect('/posts')->with('error','You don\'t have the right to write posts');
         
     }
 }
