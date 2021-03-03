@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -59,7 +60,7 @@ class UsersController extends Controller
 		$user = new User;
 		$user->name = $request->input('name');
 		$user->email = $request->input('email');
-		$user->password = $request->input('password');
+		$user->password = Hash::make($request->input('password')) ;
 		$user->type = $request->input('type');
 		$user->save();
 		return redirect('/users')->with('success', 'User Created');
