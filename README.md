@@ -60,6 +60,7 @@ To test this on your machine do the following
 ```bash
 	php artisan migrate
 	php artisan db:seed
+    php artisan storage:link
 	php artisan serve
 ```
 
